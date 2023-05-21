@@ -28,8 +28,14 @@
           <td>{{ $user->email }}</td>
           <td>{{ $user->roles }}</td>
           <td>{{ $user->created_at->diffForHumans() }}</td>
-          <td>Edit</td>
-          <td>Delete</td>
+          <td>
+            <form action="{{ route('destroy', $user->id) }}" method="POST">
+            <button type="button" class="btn btn-success">Edit</button>
+                @csrf 
+                @method('DELETE')
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form> 
+          </td>
         </tr>
         @endforeach
       </tbody>
