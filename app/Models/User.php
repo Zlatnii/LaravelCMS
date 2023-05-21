@@ -7,10 +7,13 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Carbon\Doctrine\DateTimeType;
+
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
+    public $timestamps = true;
 
     /**
      * The attributes that are mass assignable.
@@ -21,6 +24,7 @@ class User extends Authenticatable
         'name',
         'surname',
         'email',
+        'email_verified_at',
         'password',
     ];
 
@@ -41,6 +45,13 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+    ];
+
+    protected $date = [
+        'email_verify_at',
+        'created_at',
+        'updated_at',
+        'deleted_at',
     ];
 
 }

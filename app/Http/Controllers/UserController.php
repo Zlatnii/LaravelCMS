@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use Carbon\Carbon;
 
 class UserController extends Controller
 {
@@ -12,8 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
-        return view('users.index', compact('users'));
+        $users = User::all(); // Fetch all users from the database
+        return view('user', ['users' => $users]);
     }
 
     /**
@@ -35,9 +36,9 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $id)
     {
-        //
+
     }
 
     /**
