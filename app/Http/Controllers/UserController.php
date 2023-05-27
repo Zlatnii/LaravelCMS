@@ -46,7 +46,8 @@ class UserController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('edit', compact('user'));
     }
 
     /**
@@ -63,6 +64,7 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         User::destroy($id);
-        return redirect('users')->with('status', "User removed succesfuly!");
+        return redirect('users/id')->with('status', "User removed succesfuly!");
     }
+
 }

@@ -30,11 +30,15 @@
           <td>{{ $user->created_at->diffForHumans() }}</td>
           <td>
             <form action="{{ route('destroy', $user->id) }}" method="POST">
-            <button type="button" class="btn btn-success">Edit</button>
                 @csrf 
                 @method('DELETE')
               <button type="submit" class="btn btn-danger">Delete</button>
             </form> 
+          <td>
+            <form action="{{ route('edit', $user->id) }}" method="GET">
+                <button type="submit" class="btn btn-success">Edit</button>
+            </form>
+          </td>
           </td>
         </tr>
         @endforeach
