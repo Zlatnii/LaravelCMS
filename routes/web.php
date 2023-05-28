@@ -23,3 +23,6 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::get('/users', [UserController::class, 'index']);
 Route::delete('/users/{id}',[UserController::class, 'destroy'])->name('destroy');
 Route::get('/users/{id}',[UserController::class, 'edit'])->name('edit');
+Route::put('/users/{id}', [UserController::class, 'update'])->name('update');
+Route::resource('users', UserController::class);
+
