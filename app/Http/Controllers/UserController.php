@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -22,7 +22,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('create');
     }
 
     /**
@@ -30,15 +30,29 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        // Validate input data
+        $validatedData = $request->validate([
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name' => 'required',
+            'surname' => 'required',
+            'email' => 'required|email|unique:users',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $id)
-    {
+        // Upload image file
+        $imagePath = $request->file('image')->store('public/images');
 
+        // Create a new user
+        $user = new User();
+        $user->img_path = $imagePath;
+        $user->name = $request->input('name');
+        $user->surname = $request->input('surname');
+        $user->email = $request->input('email');
+
+        // Save user to database
+        $user->save();
+
+        // Redirect to the users page
+        return redirect()->route('users.index')->with('status', 'User created successfully!');
     }
 
     /**
@@ -55,31 +69,38 @@ class UserController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
+        $user = User::findOrFail($id);
+        // Validate input data
+        $validatedData = $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'name' => 'required',
             'surname' => 'required',
             'email' => 'required|email',
-            //'role' => 'required'
         ]);
-    
-        $user = User::findOrFail($id);
+        
         // Update the user with the submitted form data
         $user->name = $request->input('name');
         $user->surname = $request->input('surname');
         $user->email = $request->input('email');
-        //$user->role = $request->input('role');
-        $user->save();
-
+        // Delete the image file if it exists
+        if($request->hasFile('image')){ 
+            $imagePath = $request->file('image')->store('public/images');
+            if($user->img_path){
+                Storage::delete($user->img_path);
+            }
+        // Update the image path in the user record
+            $user->img_path = $imagePath;
+        }
+        //Save changes
+        $user->save(); 
         return redirect()->route('users.index')->with('status', 'User updated successfully!');
     }
-
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
         User::destroy($id);
-        return redirect('users/id')->with('status', "User removed succesfuly!");
+        return redirect('users')->with('status', "User removed successfully!");
     }
-
 }

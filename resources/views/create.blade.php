@@ -6,14 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" 
     integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" 
-    crossorigin="anonymous">
-    <title>Edit User</title>
+    crossorigin="anonymous" enctype="multipart/form-data">
+    <title>Add User</title>
 </head>
 <body>
-    <h1> Edit User </h1>
+    <h1> Add User </h1>
     <div class="content">
         <div style="width: 450px; margin-left: 10px;"> 
-            <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('users.update', $user->id) }}" method="POST">
             @method('PUT')
             @csrf
                 <div class="form-group">
@@ -41,9 +41,9 @@
                     <small id="roleHelp" class="form-text text-muted">Please, enter Role.</small>
                 </div>
                     <div class="d-flex justify-content-left">
-                        <div class="btn btn">
+                        <div class="btn btn-">
                             <label for="formFileDisabled" class="form-label">Choose file</label>
-                            <input class="form-control" type="file" name="image" id="image"/>
+                            <input class="form-control" type="file"/>
                         </div>
                     </div>
                 </div>
