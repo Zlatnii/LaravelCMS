@@ -84,7 +84,7 @@ class UserController extends Controller
         $user->email = $request->input('email');
         // Delete the image file if it exists
         if($request->hasFile('image')){ 
-            $imagePath = $request->file('image')->store('public/images');
+        $imagePath = $request->file('image')->store('public/images');
             if($user->img_path){
                 Storage::delete($user->img_path);
             }
@@ -101,6 +101,6 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         User::destroy($id);
-        return redirect('users')->with('status', "User removed successfully!");
+        return redirect('users.index')->with('status', "User removed successfully!");
     }
 }

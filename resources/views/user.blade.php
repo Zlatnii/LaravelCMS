@@ -4,11 +4,20 @@
   <title>CMS</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
-<body>
-  <h1>Content Managament System</h1> 
+@extends('layouts.app')
+@section('content')
+<body style="margin-left: 15px;">
   <br>
-  <a href="{{ route('users.create')}}"><button type="button" class="btn btn-success">Add User</button></a>  
-  <br>
+    <h1 style="display: inline-block;">Users
+      <form action="{{ route('create') }}" method="GET" style="display: inline-block;">
+        <button type="submit" class="btn btn-success" style="display: inline-block;">Add User</button>
+      </form>
+    </h1>
+<br>
+  @if (auth()->check())
+    <div>Welcome, {{ auth()->user()->name }}</div>
+  @endif
+<br>
   <div class="container mt-4">
     <table class="table">
       <thead>
@@ -36,17 +45,16 @@
               <td>{{ $user->surname }}</td>
               <td>{{ $user->email }}</td>
               <td>{{ $user->roles }}</td>
-              <td>{{ $user->updated_at->diffForHumans() }}</td>
+              <td>{{$user->updated_at->diffForHumans()}}</td>
+              
               <td>
-              <form action="{{ route('destroy', $user->id) }}" method="POST">
+                <form action="{{ route('destroy', $user->id) }}" method="POST" style="display: inline-block;">
                   @csrf 
                   @method('DELETE')
-                <button type="submit" class="btn btn-danger">Delete</button>
-              </form> 
-              </td>
-              <td>  
-                <form action="{{ route('edit', $user->id) }}" method="GET">
-                    <button type="submit" class="btn btn-success">Edit</button>
+                  <button type="submit" class="btn btn-danger">Delete</button>
+                </form> 
+                <form action="{{ route('edit', $user->id) }}" method="GET" style="display: inline-block;">
+                  <button type="submit" class="btn btn-success">Edit</button>
                 </form>
               </td>
           </tr>
@@ -56,5 +64,6 @@
     </table>
   </div><br>
   <footer>Algebra 2023 - Ivo Zlatunić</footer>
+  @endsection
 </body>
 </html>

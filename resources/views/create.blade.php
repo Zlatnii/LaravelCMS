@@ -9,43 +9,51 @@
     crossorigin="anonymous" enctype="multipart/form-data">
     <title>Add User</title>
 </head>
-<body>
+<body style="margin-left: 15px;">
     <h1> Add User </h1>
     <div class="content">
         <div style="width: 450px; margin-left: 10px;"> 
-            <form action="{{ route('users.update', $user->id) }}" method="POST">
-            @method('PUT')
+            <form action="{{ route('users.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
                 <div class="form-group">
                     <label for="exampleInputName">Name</label>
-                    <input type="name" class="form-control" id="ImputName" aria-describedby="NameHelp" 
-                    placeholder="Enter Name" name="name" value="{{ $user->name }}" required>
-                    <small id="NameHelp" class="form-text text-muted">Please, enter name.</small>
+                    <input type="text" class="form-control" id="exampleInputName" aria-describedby="NameHelp" 
+                    placeholder="Enter Name" name="name" value="{{ old('name') }}" required>
+                    <small id="NameHelp" class="form-text text-muted">Please enter a name.</small>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputSurname">Surname</label>
-                    <input type="surname" class="form-control" id="exampleInputSurname" aria-describedby="emailSurname" 
-                    placeholder="Enter Surname" name="surname" value="{{ $user->surname }}" required>
-                    <small id="SurnameHelp" class="form-text text-muted">Please, enter surname.</small>
+                    <input type="text" class="form-control" id="exampleInputSurname" aria-describedby="SurnameHelp" 
+                    placeholder="Enter Surname" name="surname" value="{{ old('surname') }}" required>
+                    <small id="SurnameHelp" class="form-text text-muted">Please enter a surname.</small>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputEmail1">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" 
-                    placeholder="Enter email" name="email" value="{{ $user->email }}" required>
-                    <small id="emailHelp" class="form-text text-muted">Please, enter email.</small>
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="EmailHelp" 
+                    placeholder="Enter email" name="email" value="{{ old('email') }}" required>
+                    <small id="EmailHelp" class="form-text text-muted">Please enter an email.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword" aria-describedby="PasswordHelp" 
+                    placeholder="Enter password" name="password" value="{{ old('password') }}" required>
+                    <small id="PasswordHelp" class="form-text text-muted">Please enter an password.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Confirm Password</label>
+                    <input type="password" class="form-control" id="exampleInputPassword" aria-describedby="PasswordHelp" 
+                    placeholder="Enter password" name="password" value="{{ old('password') }}" required>
+                    <small id="PasswordHelp" class="form-text text-muted">Please enter an password.</small>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputRole">Roles</label>
-                    <input type="role" class="form-control" id="exampleInputRole" aria-describedby="RoleHelp" 
-                    placeholder="Enter role" name="role" value="">
-                    <small id="roleHelp" class="form-text text-muted">Please, enter Role.</small>
+                    <input type="text" class="form-control" id="exampleInputRole" aria-describedby="RoleHelp" 
+                    placeholder="Enter role" name="role" value="{{ old('role') }}">
+                    <small id="RoleHelp" class="form-text text-muted">Please enter a role.</small>
                 </div>
-                    <div class="d-flex justify-content-left">
-                        <div class="btn btn-">
-                            <label for="formFileDisabled" class="form-label">Choose file</label>
-                            <input class="form-control" type="file"/>
-                        </div>
-                    </div>
+                <div class="form-group">
+                    <label for="exampleInputImage">Choose Image</label>
+                    <input type="file" class="form-control" id="exampleInputImage" name="image">
                 </div>
                 <br>
                 <div class="btn btn-submit">

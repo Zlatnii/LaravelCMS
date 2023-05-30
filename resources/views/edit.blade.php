@@ -9,7 +9,7 @@
     crossorigin="anonymous">
     <title>Edit User</title>
 </head>
-<body>
+<body style="margin-left: 15px;">
     <h1> Edit User </h1>
     <div class="content">
         <div style="width: 450px; margin-left: 10px;"> 
