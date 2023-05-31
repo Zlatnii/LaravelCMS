@@ -15,17 +15,22 @@ use App\Http\Controllers\UserController;
 |
 */
 
+//redirect to get logged in or registrate
 Route::get('/', function () {
-    return view('auth.login');
-});
+    return view('login');
+})->name('/');
+
 Route::view('/user', 'user')->name('user');
+
 Auth::routes();
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/users', [UserController::class, 'index']);
 
 Route::delete('/users/{id}',[UserController::class, 'destroy'])->name('destroy');
 Route::get('/users/{id}',[UserController::class, 'edit'])->name('edit');
 Route::put('/users/{id}', [UserController::class, 'update'])->name('update');
+
 Route::resource('users', UserController::class);
 
 Route::get('/create', [UserController::class, 'create'])->name('create');

@@ -53,6 +53,7 @@
                   @method('DELETE')
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form> 
+              
                 <form action="{{ route('edit', $user->id) }}" method="GET" style="display: inline-block;">
                   <button type="submit" class="btn btn-success">Edit</button>
                 </form>
