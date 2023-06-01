@@ -99,7 +99,7 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->surname = $request->input('surname');
         $user->email = $request->input('email');
-        // Delete the image file if it exists
+        // Delete the image file if it exists and if file doesn't exist save without image
         if($request->hasFile('image')){ 
         $imagePath = $request->file('image')->store('public/images');
             if($user->img_path){
@@ -107,9 +107,13 @@ class UserController extends Controller
             }
         // Update the image path in the user record
             $user->img_path = $imagePath;
+        }else{
+           $user->img_path = null;
         }
+
         //Save changes
         $user->save(); 
+        
         return redirect()->route('users.index')->with('status', 'User updated successfully!');
     }
     /**
