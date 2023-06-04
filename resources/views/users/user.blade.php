@@ -19,7 +19,7 @@
   @endif
 <br>
   <div class="container mt-4">
-    <table class="table">
+    <table class="table table-bordered table-striped text-center">
       <thead>
         <tr>
           <th>img</th>

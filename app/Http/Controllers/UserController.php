@@ -4,9 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -15,13 +15,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        //redirect to login page if user is not registred or loggedin
         if (Auth::guest()) {
             return redirect()->route('login');
-        }
-
+        }else{ 
         $users = User::all(); // Fetch all users from the database
-        return view('user', ['users' => $users]);
+        return view('users.user', ['users' => $users]);
+        }
     }
 
     /**
@@ -29,7 +28,7 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('create');
+        return view('users.create');
     }
 
     /**
@@ -78,7 +77,7 @@ class UserController extends Controller
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-        return view('edit', compact('user'));
+        return view('users.edit', compact('user'));
     }
 
     /**
@@ -110,10 +109,8 @@ class UserController extends Controller
         }else{
            $user->img_path = null;
         }
-
         //Save changes
         $user->save(); 
-        
         return redirect()->route('users.index')->with('status', 'User updated successfully!');
     }
     /**
