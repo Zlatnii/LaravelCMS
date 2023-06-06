@@ -9,7 +9,7 @@
 <body style="margin-left: 15px;">
   <br>
     <h1 style="display: inline-block;">Users
-      <form action="{{ route('create') }}" method="GET" style="display: inline-block;">
+      <form action="{{ route('users.create') }}" method="GET" style="display: inline-block;">
         <button type="submit" class="btn btn-success" style="display: inline-block;">Add User</button>
       </form>
     </h1>
@@ -48,13 +48,13 @@
               <td>{{$user->updated_at->diffForHumans()}}</td>
               
               <td>
-                <form action="{{ route('destroy', $user->id) }}" method="POST" style="display: inline-block;">
+                <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
                   @csrf 
                   @method('DELETE')
                   <button type="submit" class="btn btn-danger">Delete</button>
                 </form> 
-              
-                <form action="{{ route('edit', $user->id) }}" method="GET" style="display: inline-block;">
+                &nbsp;
+                <form action="{{ route('users.edit', $user->id) }}" method="GET" style="display: inline-block;">
                   <button type="submit" class="btn btn-success">Edit</button>
                 </form>
               </td>

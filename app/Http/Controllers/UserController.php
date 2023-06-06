@@ -17,7 +17,7 @@ class UserController extends Controller
     {
         if (Auth::guest()) {
             return redirect()->route('login');
-        }else{ 
+        }else{  
         $users = User::all(); // Fetch all users from the database
         return view('users.user', ['users' => $users]);
         }
