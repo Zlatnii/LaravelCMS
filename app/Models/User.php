@@ -56,9 +56,11 @@ class User extends Authenticatable
         'deleted_at',
     ];
 
-    public function pages()
-{
-    return $this->hasMany(Page::class);
-}
+    public function pages(){
+        return $this->hasMany(Page::class);
+    }
+    public function roles(){
+        return $this->belongsToMany(Role::class);
+    }
 
 }

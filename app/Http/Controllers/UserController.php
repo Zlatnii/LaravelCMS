@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Role;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -15,11 +16,15 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (Auth::guest()) {
+        if (Auth::guest()) 
+        {
             return redirect()->route('login');
-        }else{  
-        $users = User::all(); // Fetch all users from the database
-        return view('users.user', ['users' => $users]);
+        }
+        
+        else
+        {  
+            $users = User::with('roles')->get(); // Fetch all users from the database
+            return view('users.user', ['users' => $users]);
         }
     }
 
@@ -74,10 +79,18 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
+    public function show($id)
+    {
+        $user = User::with('roles')->findOrFail($id);
+        $roles= Role::all();
+        return view('users.show', compact('user', 'roles'));
+    }
+
     public function edit(string $id)
     {
         $user = User::findOrFail($id);
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        return view('users.edit', compact('user', 'roles'));
     }
 
     /**

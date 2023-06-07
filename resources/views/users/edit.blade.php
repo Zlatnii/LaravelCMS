@@ -35,10 +35,17 @@
                     <small id="emailHelp" class="form-text text-muted">Please, enter email.</small>
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputRole">Roles</label>
-                    <input type="role" class="form-control" id="exampleInputRole" aria-describedby="RoleHelp" 
-                    placeholder="Enter role" name="role" value="">
-                    <small id="roleHelp" class="form-text text-muted">Please, enter Role.</small>
+                <label for="exampleInputRole">Roles</label>
+                <select class="form-control" id="exampleInputRole" name="role">
+                    <option value="">Select Role</option>
+                    @foreach($roles as $role)
+                    <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
+                        {{ $role->name }}
+                    </option>
+                    @endforeach
+                </select>
+                <small id="roleHelp" class="form-text text-muted">Please enter a role.</small>
+
                 </div>
                     <div class="d-flex justify-content-left">
                         <div class="btn btn">

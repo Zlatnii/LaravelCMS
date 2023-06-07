@@ -44,9 +44,14 @@
               <td>{{ $user->name }}</td>
               <td>{{ $user->surname }}</td>
               <td>{{ $user->email }}</td>
-              <td>{{ $user->roles }}</td>
+              <td>
+                  @if($user->roles->isNotEmpty())
+                      {{ $user->role->first()->name }}
+                  @else
+                      No role
+                  @endif
+            </td>
               <td>{{$user->updated_at->diffForHumans()}}</td>
-              
               <td>
                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
                   @csrf 

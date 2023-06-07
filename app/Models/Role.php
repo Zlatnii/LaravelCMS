@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Models\User;
 
 class Role extends Model
 {
@@ -18,6 +19,10 @@ class Role extends Model
         'slug',
     ];
 
+    public function user()
+    {
+        return $this->hasMany(User::class);
+    }
 }
 
 
