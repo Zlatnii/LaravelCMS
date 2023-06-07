@@ -1,6 +1,11 @@
 @extends('layouts.app')
 @section('content')
 <div class="container">
+        @if (!auth()->check())
+            @guest
+                <script>window.location.href = "{{ route('login') }}";</script>
+            @endguest
+        @endif
         @if($page)
         <h1>{{ $page->title }}</h1>
         <br>
@@ -10,7 +15,7 @@
         @else
             <p>No image available</p>
         @endif
-        </div>
+        </div> 
         <br>
         <h4>{{ $page->subtitle }}</h4><br>
         <p>{{ $page->content }}</p><br>
@@ -25,9 +30,16 @@
             <button type="submit" class="btn btn-success">Edit</button>
         </form>
         <br>
-         @endif
+        <br>
+        @if ($page->user)
+            <p>Creator: {{ $page->user->name }}</p>
+        @else
+            <p>Creator not found</p>
+        @endif
+        @endif
         <br>
         <footer class="blockquote-footer">Algebra 2023 - Ivo Zlatunić</footer>
+       
     </div>
 @endsection
     

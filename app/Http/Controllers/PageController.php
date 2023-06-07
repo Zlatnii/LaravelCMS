@@ -31,6 +31,7 @@ class PageController extends Controller
     {
         // Validate input data
         $validatedData = $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'title' => 'required',
             'subtitle' => 'required',
             'content' => 'required',
@@ -62,7 +63,7 @@ class PageController extends Controller
      */
     public function show(string $id)
     {
-        $pages = Page::findOrFail($id);
+        $pages = Page::with('user')->findOrFail($id);
         
         return view('pages.show', ['page'=>$pages]);
     }
@@ -85,6 +86,7 @@ class PageController extends Controller
 
     // Validate input data
     $validatedData = $request->validate([
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         'title' => 'required',
         'subtitle' => 'required',
         'content' => 'required',
@@ -95,7 +97,9 @@ class PageController extends Controller
     if ($request->hasFile('image')) {
         $imagePath = $request->file('image')->store('public/images');
         $page->img_path = $imagePath;
-    }
+    }else{
+        $page->img_path = null;
+     }
 
     $page->title = $request->input('title');
     $page->subtitle = $request->input('subtitle');

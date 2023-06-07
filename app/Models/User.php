@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Carbon\Doctrine\DateTimeType;
+use App\Models\Page;
 
 
 class User extends Authenticatable
@@ -54,5 +55,10 @@ class User extends Authenticatable
         'updated_at',
         'deleted_at',
     ];
+
+    public function pages()
+{
+    return $this->hasMany(Page::class);
+}
 
 }
