@@ -40,9 +40,14 @@
                     placeholder="Enter Slug" name="slug" value="{{ $pages->slug }}" required>
                     <small id="SlugHelp" class="form-text text-muted">Please enter a slug.</small>
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputImage">Choose Image</label>
-                    <input type="file" class="form-control" id="exampleInputImage" name="image" nullable>
+                <img src="{{ Storage::url($pages->img_path) }}" alt="Current Image" width="50" height="50">
+                </div>
+                    <div class="d-flex justify-content-left">
+                        <div class="btn btn">
+                            <label for="formFileDisabled" class="form-label">Choose file</label>
+                            <input class="form-control" type="file" name="image" id="image" value="{{ old('image')}}"/>
+                        </div>
+                    </div>
                 </div>
                 <div class="btn btn-submit">
                     <button type="submit" class="btn btn-primary">Submit</button>

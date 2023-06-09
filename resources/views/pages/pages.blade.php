@@ -43,7 +43,9 @@
             <br>
             <h4>{{ $page->subtitle }}</h4>
             <div class="content"><p>{{ $page->content }}</p></div>
-            <div class="slug"><p>{{ $page->slug }}</p></div>
+            <div class="author"><p>Created by: <a href="">{{ app('App\Http\Controllers\PageController')->getUsername($page->user_id) }}</a></p></div>
+            <div class="slug"><p>Slug: <a href="">{{ $page->slug }}</a></p></div>
+
             <div>
               <form action="{{ route('pages.destroy', $page->id) }}" method="POST" style="display: inline-block;">
                 @csrf 

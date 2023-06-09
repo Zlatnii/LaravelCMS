@@ -23,6 +23,17 @@ class Role extends Model
     {
         return $this->hasMany(User::class);
     }
+
+    public function getRoleName($roleId)
+    {
+        $role = Role::find($roleId);
+        
+        if ($role) {
+            return $role->name;
+        }
+        
+        return 'No Role';
+    }
 }
 
 

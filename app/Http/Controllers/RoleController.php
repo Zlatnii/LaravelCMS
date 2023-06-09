@@ -89,4 +89,17 @@ class RoleController extends Controller
         Role::destroy($id);
         return redirect()->route('roles.index')->with('status', "User removed successfully!");
     }
+
+    public function getRoleName($roleId)
+    {
+        $role = Role::find($roleId);
+
+        if ($role) {
+            return $role->name;
+    }else{ 
+
+        return 'No Role';
+    }
+    
+    }
 }

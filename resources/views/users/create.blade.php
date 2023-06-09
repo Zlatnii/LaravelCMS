@@ -49,10 +49,14 @@
                     @enderror
                 </div>
                 <div class="form-group">
-                    <label for="exampleInputRole">Roles</label>
-                    <input type="text" class="form-control" id="exampleInputRole" aria-describedby="RoleHelp" 
-                    placeholder="Enter role" name="role" value="{{ old('role') }}">
-                    <small id="RoleHelp" class="form-text text-muted">Please enter a role.</small>
+                <label for="exampleInputRole">Roles</label>
+                <select class="form-control" id="exampleInputRole" name="role">
+                    <option value="">Select Role</option>
+                    @foreach($roles as $role)
+                        <option value="{{ $role->id }}">{{ $role->name }}</option>
+                    @endforeach
+                </select>
+                <small id="roleHelp" class="form-text text-muted">Please enter a role.</small>
                 </div>
                 <div class="form-group">
                     <label for="exampleInputImage">Choose Image</label>

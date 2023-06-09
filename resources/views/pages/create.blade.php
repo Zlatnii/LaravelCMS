@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <label for="exampleInputPassword">Slug</label>
                     <input type="text" class="form-control" id="exampleInputPassword" aria-describedby="SlugHelp" 
-                    placeholder="Enter Slug" name="slug" value="{{ old('slug') }}" required>
+                    placeholder="Enter Slug" name="slug" value="{{ old('slug') }}">
                     <small id="SlugHelp" class="form-text text-muted">Please enter a slug.</small>
                 </div>
                 <div class="form-group">

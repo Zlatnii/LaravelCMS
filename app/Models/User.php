@@ -9,12 +9,13 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use Carbon\Doctrine\DateTimeType;
 use App\Models\Page;
-
+use App\Models\Role;
 
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
     public $timestamps = true;
+    protected $dates = ['last_login'];
 
     /**
      * The attributes that are mass assignable.
@@ -26,8 +27,10 @@ class User extends Authenticatable
         'name',
         'surname',
         'email',
+        'role',
         'email_verified_at',
         'password',
+        'last_login'
     ];
 
     /**
@@ -54,13 +57,15 @@ class User extends Authenticatable
         'created_at',
         'updated_at',
         'deleted_at',
+        'last_login'
+
     ];
 
     public function pages(){
         return $this->hasMany(Page::class);
     }
     public function roles(){
-        return $this->belongsToMany(Role::class);
+        return $this->belongsTo(Role::class);
     }
 
 }

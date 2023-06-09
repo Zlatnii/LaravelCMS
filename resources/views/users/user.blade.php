@@ -44,14 +44,8 @@
               <td>{{ $user->name }}</td>
               <td>{{ $user->surname }}</td>
               <td>{{ $user->email }}</td>
-              <td>
-                  @if($user->roles->isNotEmpty())
-                      {{ $user->role->first()->name }}
-                  @else
-                      No role
-                  @endif
-            </td>
-              <td>{{$user->updated_at->diffForHumans()}}</td>
+              <td>{{ app('App\Http\Controllers\RoleController')->getRoleName($user->role) }}</td>
+              <td>{{ \Carbon\Carbon::parse($user->last_login)->diffForHumans() }}</td>
               <td>
                 <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
                   @csrf 

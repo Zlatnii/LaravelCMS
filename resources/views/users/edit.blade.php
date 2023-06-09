@@ -37,20 +37,20 @@
                 <div class="form-group">
                 <label for="exampleInputRole">Roles</label>
                 <select class="form-control" id="exampleInputRole" name="role">
-                    <option value="">Select Role</option>
+                    <option value="{{$user->role}}">Select Role</option>
                     @foreach($roles as $role)
                     <option value="{{ $role->id }}" {{ $user->role_id == $role->id ? 'selected' : '' }}>
                         {{ $role->name }}
                     </option>
                     @endforeach
                 </select>
-                <small id="roleHelp" class="form-text text-muted">Please enter a role.</small>
-
+                <small id="roleHelp" class="form-text text-muted">Please enter a role.</small><br>
+                <img src="{{ Storage::url($user->img_path) }}" alt="Current Image" width="50" height="50">
                 </div>
                     <div class="d-flex justify-content-left">
                         <div class="btn btn">
                             <label for="formFileDisabled" class="form-label">Choose file</label>
-                            <input class="form-control" type="file" name="image" id="image"/>
+                            <input class="form-control" type="file" name="image" id="image" value="{{ old('image')}}"/>
                         </div>
                     </div>
                 </div>

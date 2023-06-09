@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Page;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
@@ -12,8 +15,13 @@ class PageController extends Controller
      */
     public function index()
     {
+        if (Auth::guest()) {
+            return redirect()->route('login');
+        }else{ 
+        $users = User::all();
         $pages = Page::all();
-        return view('pages.pages', ['pages' => $pages]);
+        return view('pages.pages', compact('pages'))->with('user', auth()->user());
+        }
     }
 
     /**
@@ -35,7 +43,7 @@ class PageController extends Controller
             'title' => 'required',
             'subtitle' => 'required',
             'content' => 'required',
-            'slug' => 'required'
+            'slug' => 'nullable'
         ]);
 
          // Upload image file if present
@@ -45,13 +53,15 @@ class PageController extends Controller
         else {
             $imagePath = null;
         }
-        // Create a new user
+        // Create a new page
+        $user = Auth::user();
         $page = new Page();
         $page->img_path = $imagePath;
         $page->title = $request->input('title');
         $page->subtitle = $request->input('subtitle');
         $page->content = $request->input('content');
         $page->slug = $request->input('slug');
+        $page->user_id = $user->id;
         // Save user to database
         $page->save();
         // Redirect to the users page
@@ -98,7 +108,7 @@ class PageController extends Controller
         $imagePath = $request->file('image')->store('public/images');
         $page->img_path = $imagePath;
     }else{
-        $page->img_path = null;
+        $page->img_path = $page->img_path;
      }
 
     $page->title = $request->input('title');
@@ -120,5 +130,14 @@ class PageController extends Controller
     {
         Page::destroy($id);
         return redirect()->route('pages.index')->with('status', "User removed successfully!");   
+    }
+
+    public function getUsername($name)
+    {
+        $user = User::where('id', $name)->first();
+        if ($user) {
+            return $user->name;
+        }
+        return 'Unknown User'; 
     }
 }
