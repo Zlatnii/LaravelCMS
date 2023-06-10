@@ -31,11 +31,11 @@
         </div>
         <div class="col-md-8 col-md-offset-4">
           @foreach($pages as $page)
-            <h1>{{ $page->title }}</h1>
+            <h1><a class="nav-link" href="{{ route('pages.show', $page->id) }}">{{ $page->title }}</a></h1>
             <br>
             <div class="img">
               @if ($page->img_path)
-                <img src="{{ Storage::url($page->img_path) }}" alt="Image" width="50" height="50">
+                <img src="{{ Storage::url($page->img_path) }}" alt="Image" width="80" height="80">
               @else
                 <p>No image available</p>
               @endif
@@ -44,8 +44,7 @@
             <h4>{{ $page->subtitle }}</h4>
             <div class="content"><p>{{ $page->content }}</p></div>
             <div class="author"><p>Created by: <a href="">{{ app('App\Http\Controllers\PageController')->getUsername($page->user_id) }}</a></p></div>
-            <div class="slug"><p>Slug: <a href="">{{ $page->slug }}</a></p></div>
-
+            <div class="slug">Slug: <a href="http://{{ $page->slug }}">{{ $page->slug }}</a></div>
             <div>
               <form action="{{ route('pages.destroy', $page->id) }}" method="POST" style="display: inline-block;">
                 @csrf 

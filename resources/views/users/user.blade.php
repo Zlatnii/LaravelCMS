@@ -45,17 +45,21 @@
               <td>{{ $user->surname }}</td>
               <td>{{ $user->email }}</td>
               <td>{{ app('App\Http\Controllers\RoleController')->getRoleName($user->role) }}</td>
-              <td>{{ \Carbon\Carbon::parse($user->last_login)->diffForHumans() }}</td>
+                  @if ($user->last_login ===  null)
+                      <td>You are the new one! Welcome!</td>
+                  @else
+                      <td>{{ \Carbon\Carbon::parse($user->last_login)->diffForHumans() }}</td>
+                  @endif
               <td>
-                <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
-                  @csrf 
-                  @method('DELETE')
-                  <button type="submit" class="btn btn-danger">Delete</button>
-                </form> 
-                &nbsp;
-                <form action="{{ route('users.edit', $user->id) }}" method="GET" style="display: inline-block;">
-                  <button type="submit" class="btn btn-success">Edit</button>
-                </form>
+              <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
+                @csrf 
+                @method('DELETE')
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </form> 
+              &nbsp;
+              <form action="{{ route('users.edit', $user->id) }}" method="GET" style="display: inline-block;">
+                <button type="submit" class="btn btn-success">Edit</button>
+              </form>
               </td>
           </tr>
       </tr>
