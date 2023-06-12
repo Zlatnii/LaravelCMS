@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>CMS</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
+<x-header/>
 @extends('layouts.app')
 @section('content')
 <body style="margin-left: 15px;">
@@ -67,7 +62,5 @@
       </tbody>
     </table>
   </div><br>
-  <footer>Algebra 2023 - Ivo Zlatunić</footer>
+  <x-footer/>
   @endsection
-</body>
-</html>

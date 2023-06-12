@@ -1,9 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>CMS</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
+<x-header/>
 <body style="margin-left: 15px;">
   @extends('layouts.app')
   @section('content')
@@ -43,7 +38,7 @@
             <br>
             <h4>{{ $page->subtitle }}</h4>
             <div class="content"><p>{{ $page->content }}</p></div>
-            <div class="author"><p>Created by: <a href="">{{ app('App\Http\Controllers\PageController')->getUsername($page->user_id) }}</a></p></div>
+            <div class="author"><p>Created by: {{ app('App\Http\Controllers\PageController')->getUsername($page->user_id) }}</p></div>
             <div class="slug">Slug: <a href="http://{{ $page->slug }}">{{ $page->slug }}</a></div>
             <div>
               <form action="{{ route('pages.destroy', $page->id) }}" method="POST" style="display: inline-block;">
@@ -62,7 +57,6 @@
       </div>
     </div>
     <br>
-    <footer>Algebra 2023 - Ivo Zlatunić</footer>
-  @endsection
-</body>
-</html>
+<x-footer/>
+@endsection
+
