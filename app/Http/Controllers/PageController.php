@@ -16,12 +16,12 @@ class PageController extends Controller
     public function index()
     {
         if (Auth::guest()) {
-            return redirect()->route('login');
-        }else{ 
+        return redirect()->route('login');
+        }
+      
         $users = User::all();
         $pages = Page::all();
         return view('pages.pages', compact('pages'))->with('user', auth()->user());
-        }
     }
 
     /**
