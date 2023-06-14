@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function() {
 Route::middleware([User::class])->group(function () {
     // Redirect user to /pages after login
     Route::get('/pages', [App\Http\Controllers\PageController::class, 'index'])->name('pages');
+
 });
 // Admin-only routes
 Route::middleware([Admin::class])->group(function () {
@@ -43,6 +44,9 @@ Route::middleware([Admin::class])->group(function () {
 
     // Pages CRUD routes
     Route::resource('/pages', PageController::class);
+
+    //Redirect from registration page
+    Route::get('/pages', [PagesController::class, 'index'])->name('pages');
 });
 
 });

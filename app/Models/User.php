@@ -61,11 +61,17 @@ class User extends Authenticatable
 
     ];
 
-    public function pages(){
+    public function pages()
+    {
         return $this->hasMany(Page::class);
     }
-    public function roles(){
+    public function roles()
+    {
         return $this->belongsTo(Role::class);
     }
 
+    public function isAdmin()
+    {
+        return $this->role === 1;
+    }
 }

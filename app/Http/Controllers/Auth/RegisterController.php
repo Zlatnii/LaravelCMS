@@ -8,6 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Routing\Redirector;
+
 
 class RegisterController extends Controller
 {
@@ -29,7 +31,7 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected $redirectTo = '/pages';
 
     /**
      * Create a new controller instance.
@@ -54,6 +56,7 @@ class RegisterController extends Controller
             'surname' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'img' => ['nullable', 'image', 'mimes:jpeg,png,jpg,gif', 'max:2048'],
         ]);
     }
 
@@ -65,11 +68,24 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
             'surname' => $data['surname'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
-    }
+
+        if (isset($data['img'])) {
+            // Save the image and update the user's img_path
+            $imagePath = $data['img']->store('images');
+            $user->update(['img_path' => $imagePath]);
+        }
+
+        $roleUser = User::max('role');
+        $role = $roleUser ? $roleUser + 1 : 2;
+        $user->update(['role' => $role]);
+
+        return $user;
+        
+        }
 }
