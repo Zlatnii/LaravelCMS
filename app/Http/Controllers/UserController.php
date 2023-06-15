@@ -85,9 +85,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::with('roles')->findOrFail($id);
-        $roles = Role::all();
-        return view('users.show', compact('user', 'roles'));
+        $user = User::findOrFail($id);
+    
+        return view('users.show', ['user'=>$user]);
     }
 
     public function edit(string $id)
@@ -134,7 +134,7 @@ class UserController extends Controller
         }
         //Save changes
         $user->save();
-        return redirect()->route('users.index')->with('status', 'User updated successfully!');
+        return redirect()->route('users.index');
     }
     /**
      * Remove the specified resource from storage.
@@ -142,6 +142,6 @@ class UserController extends Controller
     public function destroy(string $id)
     {
         User::destroy($id);
-        return redirect()->route('users.index')->with('status', "User removed successfully!");
+        return redirect()->route('users.index');
     }
 }

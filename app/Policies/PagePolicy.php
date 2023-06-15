@@ -35,4 +35,5 @@ class PagePolicy
     {
         return $user->isAdmin();
     }
+
 }

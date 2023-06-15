@@ -22,7 +22,7 @@ class Admin
         if (Auth::check() && Auth::user()->role == 1) {
             return $next($request);
         }elseif (Auth::check() && Auth::user()->role >= 2) {
-            if ($request->is('pages') || $request->is('pages/*')) {
+            if ($request->is('pages') || $request->is('pages/*') || $request->route()->getName() == 'users.show') {
                 return $next($request);
             }
             return redirect('/pages');

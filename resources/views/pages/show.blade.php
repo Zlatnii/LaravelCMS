@@ -27,7 +27,7 @@
                     <button type="submit" class="btn btn-success">Edit</button>
                 </form>
             @endif
-            
+            &nbsp;
             @if (Auth::user()->can('delete', $page) || Auth::user()->role == 1)
                 <!-- User can delete their own page -->
                 <form action="{{ route('pages.destroy', $page->id) }}" method="POST" style="display: inline-block;">
@@ -36,6 +36,7 @@
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
             @endif
+            &nbsp;
             @can('updateAny', $page)
                 <!-- Admin can edit any page -->
                 <form action="{{ route('pages.edit', $page->id) }}" method="GET" style="display: inline-block;">
@@ -60,7 +61,6 @@
         @endif
         <br>
         <footer class="blockquote-footer">Algebra 2023 - Ivo Zlatunić</footer>
-       
     </div>
 @endsection
     
