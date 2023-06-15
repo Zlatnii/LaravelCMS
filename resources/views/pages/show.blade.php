@@ -20,15 +20,36 @@
         <h4>{{ $page->subtitle }}</h4><br>
         <p>{{ $page->content }}</p><br>
         <div class="slug">Slug:<p>{{ $page->slug }}</p></div>
-        <form action="{{ route('pages.destroy', $page->id) }}" method="POST" style="display: inline-block;">
-            @csrf 
-            @method('DELETE')
-            <button type="submit" class="btn btn-danger">Delete</button>
-        </form> 
-        &nbsp;
-        <form action="{{ route('pages.edit', $page->id) }}" method="GET" style="display: inline-block;">
-            <button type="submit" class="btn btn-success">Edit</button>
-        </form>
+        @if (Auth::user()->can('update', $page) || Auth::user()->role == 1)
+
+                <!-- User can edit their own page -->
+                <form action="{{ route('pages.edit', $page->id) }}" method="GET" style="display: inline-block;">
+                    <button type="submit" class="btn btn-success">Edit</button>
+                </form>
+            @endif
+            
+            @if (Auth::user()->can('delete', $page) || Auth::user()->role == 1)
+                <!-- User can delete their own page -->
+                <form action="{{ route('pages.destroy', $page->id) }}" method="POST" style="display: inline-block;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            @endif
+            @can('updateAny', $page)
+                <!-- Admin can edit any page -->
+                <form action="{{ route('pages.edit', $page->id) }}" method="GET" style="display: inline-block;">
+                    <button type="submit" class="btn btn-success">Edit</button>
+                </form>
+            @endcan 
+            @can('deleteAny', $page)
+                <!-- Admin can delete any page -->
+                <form action="{{ route('pages.destroy', $page->id) }}" method="POST" style="display: inline-block;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            @endcan
         <br>
         <br>
         @if ($page->user)

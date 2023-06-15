@@ -18,17 +18,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        if (Auth::guest()) 
-        {
+        if (Auth::guest()) {
             return redirect()->route('login');
-        }
-        
-        else
-        {  
+        } else {
             $users = User::with('roles')->get();
             $roles = DB::table('roles')->pluck('id', 'name');
             return view('users.user', compact('users', 'roles'));
-            
         }
     }
 
@@ -47,25 +42,27 @@ class UserController extends Controller
     public function store(Request $request)
     {
         // Validate input data
-        $validatedData = $request->validate([
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'name' => 'required',
-            'surname' => 'required',
-            'role' => 'nullable',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8|confirmed'
-        ], 
-        [
-            'password.confirmed' => 'The password confirmation does not match.'
-        ]);
+        $validatedData = $request->validate(
+            [
+                'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+                'name' => 'required',
+                'surname' => 'required',
+                'role' => 'nullable',
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:8|confirmed'
+            ],
+            [
+                'password.confirmed' => 'The password confirmation does not match.'
+            ]
+        );
 
-         // Upload image file if present
-         if ($request->hasFile('image')) {
+        // Upload image file if present
+        if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/images');
-        } 
-        else {
+        } else {
             $imagePath = null;
         }
+
         // Create a new user
         $user = new User();
         $user->img_path = $imagePath;
@@ -89,7 +86,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::with('roles')->findOrFail($id);
-        $roles= Role::all();
+        $roles = Role::all();
         return view('users.show', compact('user', 'roles'));
     }
 
@@ -114,29 +111,29 @@ class UserController extends Controller
             'role' => 'nullable',
             'email' => 'required|email',
         ]);
-        
+
         // Update the user with the submitted form data
         $user->name = $request->input('name');
         $user->surname = $request->input('surname');
         $user->email = $request->input('email');
         $user->role = $request->input('role');
-        if($user->role){
+        if ($user->role) {
             $user->role = $user->role;
         }
-        
+
         // Delete the image file if it exists and if file doesn't exist save without image
-        if($request->hasFile('image')){ 
+        if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/images');
-            if($user->img_path){
+            if ($user->img_path) {
                 Storage::delete($user->img_path);
             }
-        // Update the image path in the user record
+            // Update the image path in the user record
             $user->img_path = $imagePath;
-        }else{
-           $user->img_path = $user->img_path; //if no new img uploaded, retain the existing img
+        } else {
+            $user->img_path = $user->img_path; //if no new img uploaded, retain the existing img
         }
         //Save changes
-        $user->save(); 
+        $user->save();
         return redirect()->route('users.index')->with('status', 'User updated successfully!');
     }
     /**

@@ -46,21 +46,22 @@
         </div>
         <div class="slug">Slug: <a href="http://{{ $page->slug }}">{{ $page->slug }}</a></div>
         <div>
-            @can('update', $page)
+            @if (Auth::user()->can('update', $page) || Auth::user()->role == 1)
+
                 <!-- User can edit their own page -->
                 <form action="{{ route('pages.edit', $page->id) }}" method="GET" style="display: inline-block;">
                     <button type="submit" class="btn btn-success">Edit</button>
                 </form>
-            @endcan
+            @endif
             
-            @can('delete', $page)
+            @if (Auth::user()->can('delete', $page) || Auth::user()->role == 1)
                 <!-- User can delete their own page -->
                 <form action="{{ route('pages.destroy', $page->id) }}" method="POST" style="display: inline-block;">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger">Delete</button>
                 </form>
-            @endcan
+            @endif
             @can('updateAny', $page)
                 <!-- Admin can edit any page -->
                 <form action="{{ route('pages.edit', $page->id) }}" method="GET" style="display: inline-block;">
