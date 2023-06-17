@@ -54,7 +54,7 @@
         <br>
         <br>
         @if ($page->user)
-            <p>Creator: {{ $page->user->name }}</p>
+            <p>Creator: <a href="{{route('users.show', $page->user_id) }}"> {{ $page->user->name }} </a></p>
         @else
             <p>Creator not found</p>
         @endif

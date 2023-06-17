@@ -1,12 +1,15 @@
 <?php
 
+
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Controllers\NavigationController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RoleController;
 use App\Http\Controllers\PageController;
 use App\Http\Middleware\Admin;
 use App\Http\Middleware\User;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -30,24 +33,29 @@ Route::middleware(['auth'])->group(function() {
 Route::middleware([User::class])->group(function () {
     // Redirect user to /pages after login
     Route::get('/pages', [App\Http\Controllers\PageController::class, 'index'])->name('pages');
-
-});
-// Admin-only routes
-Route::middleware([Admin::class])->group(function () {
-    //Home dashboard for Admin
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    // Users CRUD routes
-    Route::resource('/users', UserController::class);
-
-    // Roles CRUD routes
-    Route::resource('/roles', RoleController::class);
-
-    // Pages CRUD routes
-    Route::resource('/pages', PageController::class);
-
     //Redirect from registration page
     Route::get('/pages', [PagesController::class, 'index'])->name('pages');
+
 });
+    // Admin-only routes
+    Route::middleware([Admin::class])->group(function () {
+        //Home dashboard for Admin
+        Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+        // Users CRUD routes
+        Route::resource('/users', UserController::class);
+
+        // Roles CRUD routes
+        Route::resource('/roles', RoleController::class);
+
+        // Pages CRUD routes
+        Route::resource('/pages', PageController::class);
+
+        //Navigations CRUD routes
+        Route::resource('/navigations', NavigationController::class)->except(['show']);
+        Route::get('/navigations/view', [NavigationController::class, 'view'])->name('navigations.view');
+        Route::get('/navigations/{navigation}', [NavigationController::class, 'update'])->name('navigations.update');
+    });  
 
 });
 

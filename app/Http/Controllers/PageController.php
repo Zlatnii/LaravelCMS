@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Page;
 use App\Models\User;
+use App\Models\Navigation;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
@@ -16,12 +16,12 @@ class PageController extends Controller
     public function index()
     {
         if (Auth::guest()) {
-        return redirect()->route('login');
+            return redirect()->route('login');
         }
-      
+        $navigations = Navigation::all();
         $users = User::all();
         $pages = Page::all();
-        return view('pages.pages', compact('pages'))->with('user', auth()->user());
+        return view('pages.pages', compact('pages', 'navigations'))->with('user', auth()->user());
     }
 
     /**
@@ -46,11 +46,10 @@ class PageController extends Controller
             'slug' => 'nullable'
         ]);
 
-         // Upload image file if present
-         if ($request->hasFile('image')) {
+        // Upload image file if present
+        if ($request->hasFile('image')) {
             $imagePath = $request->file('image')->store('public/images');
-        } 
-        else {
+        } else {
             $imagePath = null;
         }
         // Create a new page
@@ -74,8 +73,8 @@ class PageController extends Controller
     public function show(string $id)
     {
         $pages = Page::with('user')->findOrFail($id);
-        
-        return view('pages.show', ['page'=>$pages]);
+
+        return view('pages.show', ['page' => $pages]);
     }
 
     /**
@@ -91,37 +90,37 @@ class PageController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-{
-    $page = Page::findOrFail($id);
+    {
+        $page = Page::findOrFail($id);
 
-    // Validate input data
-    $validatedData = $request->validate([
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-        'title' => 'required',
-        'subtitle' => 'required',
-        'content' => 'required',
-        'slug' => 'required'
-    ]);
+        // Validate input data
+        $validatedData = $request->validate([
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'title' => 'required',
+            'subtitle' => 'required',
+            'content' => 'required',
+            'slug' => 'required'
+        ]);
 
-    // Update the page with the submitted form data
-    if ($request->hasFile('image')) {
-        $imagePath = $request->file('image')->store('public/images');
-        $page->img_path = $imagePath;
-    }else{
-        $page->img_path = $page->img_path;
-     }
+        // Update the page with the submitted form data
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('public/images');
+            $page->img_path = $imagePath;
+        } else {
+            $page->img_path = $page->img_path;
+        }
 
-    $page->title = $request->input('title');
-    $page->subtitle = $request->input('subtitle');
-    $page->content = $request->input('content');
-    $page->slug = $request->input('slug');
+        $page->title = $request->input('title');
+        $page->subtitle = $request->input('subtitle');
+        $page->content = $request->input('content');
+        $page->slug = $request->input('slug');
 
-    // Save page to database
-    $page->save();
+        // Save page to database
+        $page->save();
 
-    // Redirect to the pages index page
-    return redirect()->route('pages.index')->with('status', 'Page updated successfully!');
-}
+        // Redirect to the pages index page
+        return redirect()->route('pages.index')->with('status', 'Page updated successfully!');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -129,7 +128,7 @@ class PageController extends Controller
     public function destroy(string $id)
     {
         Page::destroy($id);
-        return redirect()->route('pages.index')->with('status', "User removed successfully!");   
+        return redirect()->route('pages.index')->with('status', "User removed successfully!");
     }
 
     public function getUsername($name)
@@ -138,6 +137,18 @@ class PageController extends Controller
         if ($user) {
             return $user->name;
         }
-        return 'Unknown User'; 
+        return 'Unknown User';
+    }
+
+    public function getPageName($pageId)
+    {
+        $page = Page::find($pageId);
+
+        if ($page) {
+            return $page->title;
+        } else {
+
+            return 'No connection between pages';
+        }
     }
 }

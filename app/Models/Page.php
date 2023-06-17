@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Models\User;
+use App\Models\Navigation;
 
 class Page extends Model
 {
@@ -24,5 +25,10 @@ class Page extends Model
     public function user()
     {   
         return $this->belongsTo(User::class);
+    }
+
+    public function navigations()
+    {
+        return $this->hasMany(Navigation::class);
     }
 }

@@ -1,10 +1,10 @@
 <x-header/>
 </head>
 <body style="margin-left: 15px;">
-    <h1> Edit User </h1>
+    <h1> Edit Roles </h1>
     <div class="content">
         <div style="width: 450px; margin-left: 10px;"> 
-            <form action="{{ route('roles.update', $role->id) }}" method="POST">
+            <form action="{{ route('roles.update', $role->id) }}" method="POST" enctype="multipart/form-data">
             @method('PUT')
             @csrf
                 <div class="form-group">

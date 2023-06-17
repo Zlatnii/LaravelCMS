@@ -40,11 +40,11 @@
               <td>{{ $user->surname }}</td>
               <td>{{ $user->email }}</td>
               <td>{{ app('App\Http\Controllers\RoleController')->getRoleName($user->role) }}</td>
-                  @if ($user->last_login ===  null)
-                      <td>You are the new one! Welcome!</td>
-                  @else
-                      <td>{{ \Carbon\Carbon::parse($user->last_login)->diffForHumans() }}</td>
-                  @endif
+              @if ($user->last_login ===  null)
+              <td>You are the new one! Welcome!</td>
+              @else
+              <td>{{ \Carbon\Carbon::parse($user->last_login)->diffForHumans() }}</td>
+              @endif
               <td>
               <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display: inline-block;">
                 @csrf 

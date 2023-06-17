@@ -71,11 +71,8 @@ class UserController extends Controller
         $user->email = $request->input('email');
         $user->role = $request->input('role');
         $user->password = Hash::make($request->input('password_confirmation'));
-
-
         // Save user to database
         $user->save();
-
         // Redirect to the users page
         return redirect()->route('users.index')->with('status', 'User created successfully!');
     }
